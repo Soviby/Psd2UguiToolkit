@@ -57,7 +57,7 @@ namespace Baum2.Editor
             }
         }
 
-        [MenuItem("Tools/JSZX/Psd2Ugui设置")]
+        [MenuItem("Tools/Soviby/Psd2Ugui设置")]
         public static void FindPsd2UguiSetting()
         {
             Selection.activeObject = Settings;
