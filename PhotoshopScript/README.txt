@@ -1,0 +1,1 @@
+拷贝到 <PS安装目录>\Presets\Scripts\Baum2

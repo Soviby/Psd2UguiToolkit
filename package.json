@@ -1,0 +1,18 @@
+{
+    "name": "com.soviby.unity.ui.psd2ugui",
+    "displayName": "Psd2Ugui",
+    "description": "Psd2Ugui – 根据psd在unity内自动完成ugui界面拼图的工具。\n\n文档: https://wiki.g-bits.com/pages/viewpage.action?pageId=592913160",
+    "version": "0.0.1",
+    "unity": "2018.3",
+    "author": "Soviby",
+	"dependencies": {
+	},
+	"documentationUrl": "https://wiki.g-bits.com/display/jszx/psd2Ugui",
+	"changelogUrl": "https://m68gitlab.g-bits.com/unity-plugins/baum2ex/-/releases",
+	"samples": [
+    {
+      "displayName": "Psd2Ugui Examples",
+      "path": "Psd2UguiExamples~"
+    }
+]
+}
