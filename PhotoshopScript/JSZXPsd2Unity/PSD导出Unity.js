@@ -887,7 +887,7 @@ function s2t(t) { return stringIDToTypeID(t) }
         target.visible = false
         // results.push(Util.revertToSnapshot(document, snapShotId));
       }
-      outputDoc.close(SaveOptions.DONOTSAVECHANGES)
+      if (outputDoc != null) outputDoc.close(SaveOptions.DONOTSAVECHANGES);
       return results;
     };
 
