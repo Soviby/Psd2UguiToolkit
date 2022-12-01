@@ -61,53 +61,53 @@ Unity示例
 可在自己的项目中使用以下API进行扩展
 
 ```c#
- 	[InitializeOnLoad]
-    public class Psd2UguiManager
+[InitializeOnLoad]
+public class Psd2UguiManager
+{
+    static List<Type> TypeOfAddRCMap = new List<Type>
     {
-        static List<Type> TypeOfAddRCMap = new List<Type>
-        {
-            typeof(EnhancedScroller),
-            typeof(ExtHorizontalLayoutGroup),
-            typeof(ExtVerticalLayoutGroup),
-            typeof(ReferenceCollector),
-            typeof(Button),
-            typeof(Text),
-        };
+        typeof(EnhancedScroller),
+        typeof(ExtHorizontalLayoutGroup),
+        typeof(ExtVerticalLayoutGroup),
+        typeof(ReferenceCollector),
+        typeof(Button),
+        typeof(Text),
+    };
 
-        static Psd2UguiManager()
+    static Psd2UguiManager()
+    {
+        // 添加图片导入后回调
+        PreprocessTexture.OnPreprocessTextureFunc = (assetPath, assetImporter) =>
         {
-            // 添加图片导入后回调
-            PreprocessTexture.OnPreprocessTextureFunc = (assetPath, assetImporter) =>
+            PreprocessTexture.DefaultTexturePreprocess(assetPath, assetImporter);
+        };
+        // 添加类型映射
+        BaumElementHelper.AddComponentTypeByElement<Image, ExtImage>();
+        // 添加新的组件
+        ElementFactory.AddElement("List", (d, p) => new ListElement(d, p));
+        ElementFactory.AddElement("LoopList", (d, p) => new LoopListElement(d, p));
+        // 添加预制体生成后的回调
+        PrefabCreator.OnCreateFunc = (creator, go) =>
+        {
+            // 添加RC
+            var rc = go.AddMissingComponent<ReferenceCollector>();
+            foreach (var t in TypeOfAddRCMap)
             {
-                PreprocessTexture.DefaultTexturePreprocess(assetPath, assetImporter);
-            };
-            // 添加类型映射
-            BaumElementHelper.AddComponentTypeByElement<Image, ExtImage>();
-            // 添加新的组件
-            ElementFactory.AddElement("List", (d, p) => new ListElement(d, p));
-            ElementFactory.AddElement("LoopList", (d, p) => new LoopListElement(d, p));
-            // 添加预制体生成后的回调
-            PrefabCreator.OnCreateFunc = (creator, go) =>
-            {
-                // 添加RC
-                var rc = go.AddMissingComponent<ReferenceCollector>();
-                foreach (var t in TypeOfAddRCMap)
+                var coms = go.GetComponentsInChildren(t);
+                for (int i = 0; coms != null && i < coms.Length; i++)
                 {
-                    var coms = go.GetComponentsInChildren(t);
-                    for (int i = 0; coms != null && i < coms.Length; i++)
-                    {
-                        var com = coms[i];
-                        // 不添加子部件的子节点
-                        if (PrefabUtility.IsPartOfNonAssetPrefabInstance(com.gameObject))
-                            continue;
-                        var addCom = com.GetComponent(t);
-                        if (addCom == rc)
-                            continue;
-                        rc.data.Add(new ReferenceCollectorData() { key = com.name, gameObject = addCom });
-                    }
+                    var com = coms[i];
+                    // 不添加子部件的子节点
+                    if (PrefabUtility.IsPartOfNonAssetPrefabInstance(com.gameObject))
+                        continue;
+                    var addCom = com.GetComponent(t);
+                    if (addCom == rc)
+                        continue;
+                    rc.data.Add(new ReferenceCollectorData() { key = com.name, gameObject = addCom });
                 }
-            };
-        }
+            }
+        };
     }
+}
 ```
 
