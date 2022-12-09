@@ -1,7 +1,6 @@
 PSD转Unity工具
-> 最终版
 =====
-
+> 最终版
 * 基于baum2改进
 * 原始项目地址： https://github.com/kyubuns/Baum2
 
